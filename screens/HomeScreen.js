@@ -68,7 +68,6 @@ export default class HomeScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
         <Text style={styles.header}>PixTrax</Text>
         <Form 
           ref={c => this._form = c}
@@ -76,74 +75,55 @@ export default class HomeScreen extends React.Component {
           options={options}
         />
         <TouchableHighlight 
-          style={styles.button}
           onPress={this.handleLogin}
         >
-          <Text>Log In!</Text>
+          <Text
+            style={styles.button}
+            >
+            Log In!
+          </Text>
         </TouchableHighlight>
 
         <TouchableHighlight 
-          style={styles.button}
           onPress={this.handleSignUp}
         >
-          <Text>Sign Up!</Text>
+          <Text
+            style={styles.button}
+          >
+            Sign Up!
+          </Text>
         </TouchableHighlight>
 
-        </ScrollView>
-
-        <View style={styles.tabBarInfoContainer}>
-          <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
-
-          <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-            <MonoText style={styles.codeHighlightText}>navigation/MainTabNavigator.js</MonoText>
-          </View>
-        </View>
       </View>
     );
   }
 
 
-  _handleLearnMorePress = () => {
-    WebBrowser.openBrowserAsync('https://docs.expo.io/versions/latest/guides/development-mode');
+
+  handleLogin = () => {
+    console.log("FOOOBAAAARRRRR");
   };
 
-  _handleHelpPress = () => {
-    WebBrowser.openBrowserAsync(
-      'https://docs.expo.io/versions/latest/guides/up-and-running.html#can-t-see-your-changes'
-    );
-  };
+  handleSignUp = () => {
+    console.log("TESTTTTTTTT");
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    padding: 40,
+    marginTop: 40,
+
   },
-  developmentModeText: {
-    marginBottom: 20,
-    color: 'rgba(0,0,0,0.4)',
-    fontSize: 14,
-    lineHeight: 19,
+  header: {
+    fontSize:24,
     textAlign: 'center',
   },
-  contentContainer: {
-    paddingTop: 30,
-  },
-  welcomeContainer: {
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 20,
-  },
-  welcomeImage: {
-    width: 100,
-    height: 80,
-    resizeMode: 'contain',
-    marginTop: 3,
-    marginLeft: -10,
-  },
-  getStartedContainer: {
-    alignItems: 'center',
-    marginHorizontal: 50,
+  button: {
+    fontSize:24,
+    textAlign:'center',
   },
   homeScreenFilename: {
     marginVertical: 7,
