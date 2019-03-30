@@ -6,9 +6,10 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  TouchableHighlight,
   View,
 } from 'react-native';
+
+import { Button } from 'react-native-elements';
 
 import { db } from '../config';
 import t from 'tcomb-form-native';
@@ -74,26 +75,20 @@ export default class HomeScreen extends React.Component {
           type={User} 
           options={options}
         />
-        <TouchableHighlight 
+        <Button 
           onPress={this.handleLogin}
+          title="Log In!"
+          raised={true}
+          style={styles.button}
         >
-          <Text
-            style={styles.button}
-            >
-            Log In!
-          </Text>
-        </TouchableHighlight>
-
-        <TouchableHighlight 
+        </Button>
+        <Button 
           onPress={this.handleSignUp}
+          title="Sign Up!"
+          raised={true}
+          style={styles.button}
         >
-          <Text
-            style={styles.button}
-          >
-            Sign Up!
-          </Text>
-        </TouchableHighlight>
-
+        </Button>
       </View>
     );
   }

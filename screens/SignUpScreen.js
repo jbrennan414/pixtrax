@@ -4,8 +4,9 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TouchableHighlight,
 } from 'react-native';
+
+import { Button } from 'react-native-elements';
 
 import t from 'tcomb-form-native';
 import { StackActions, NavigationActions } from 'react-navigation';
@@ -77,15 +78,12 @@ export default class HomeScreen extends React.Component {
           type={User} 
           options={options}
         />
-        <TouchableHighlight 
+        <Button 
           onPress={this.handleSignUp}
+          title="Sign Up!"
+          raised={true}
         >
-          <Text
-            style={styles.button}
-          >
-            Sign Up!
-          </Text>
-        </TouchableHighlight>
+        </Button>
       </ScrollView>
     );
   }
