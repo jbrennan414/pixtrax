@@ -1,13 +1,10 @@
 import React from 'react';
 import {
-  Image,
   Platform,
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   TouchableHighlight,
-  View,
 } from 'react-native';
 
 import t from 'tcomb-form-native';
@@ -16,8 +13,11 @@ import { StackActions, NavigationActions } from 'react-navigation';
 const Form = t.form.Form;
 
 const User = t.struct({
-  email: t.String,
-  password: t.String,
+    name: t.String,
+    username: t.String,
+    email: t.String,
+    password: t.String,
+    confirmPassword: t.String,
 });
 
 const options = {
@@ -26,10 +26,13 @@ const options = {
       error: 'We don\'t have that email in our system'
     },
     password: {
-      password: true,
-      secureTextEntry: true,
-      error: 'Nope'
+        password: true,
+        secureTextEntry: true,
+        error: 'Nope'
     },
+    confirmPassword: {
+        secureTextEntry: true,
+    }
   },
   stylesheet: formStyles,
 };
@@ -66,23 +69,13 @@ export default class HomeScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <Text style={styles.header}>PixTrax</Text>
         <Form 
           ref={c => this._form = c}
           type={User} 
           options={options}
         />
-        <TouchableHighlight 
-          onPress={this.handleLogin}
-        >
-          <Text
-            style={styles.button}
-            >
-            Log In!
-          </Text>
-        </TouchableHighlight>
-
         <TouchableHighlight 
           onPress={this.handleSignUp}
         >
@@ -92,33 +85,22 @@ export default class HomeScreen extends React.Component {
             Sign Up!
           </Text>
         </TouchableHighlight>
-
-      </View>
+      </ScrollView>
     );
   }
-
-
-
-  handleLogin = () => {
-    const value = this._form.getValue();
-    console.log("1111 value:", value);
-
-    this.props.navigation.dispatch(
-      NavigationActions.navigate({
-        routeName:'Map'
-      })
-    );
-
-  };
 
   handleSignUp = () => {
-    this.props.navigation.dispatch(
-      NavigationActions.navigate({
-        routeName:'SignUp'
-      })
-    )
-  }
-}
+
+    const value = this._form.getValue();
+    console.log("222 value:", value);
+
+        this.props.navigation.dispatch(
+            NavigationActions.navigate({
+            routeName:'Map'
+            })
+        )
+    }
+};
 
 const styles = StyleSheet.create({
   container: {
