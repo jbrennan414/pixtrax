@@ -9,6 +9,7 @@ import {
 
 import t from 'tcomb-form-native';
 import { StackActions, NavigationActions } from 'react-navigation';
+import { db } from '../config';
 
 const Form = t.form.Form;
 
@@ -92,14 +93,20 @@ export default class HomeScreen extends React.Component {
   handleSignUp = () => {
 
     const value = this._form.getValue();
-    console.log("222 value:", value);
+    addItem(value);
 
-        this.props.navigation.dispatch(
-            NavigationActions.navigate({
-            routeName:'Map'
-            })
-        )
-    }
+    this.props.navigation.dispatch(
+      NavigationActions.navigate({
+        routeName:'Map'
+      })
+    )
+  }
+};
+
+const addItem = item => {  
+  db.ref('/users').push({
+    item
+  });
 };
 
 const styles = StyleSheet.create({

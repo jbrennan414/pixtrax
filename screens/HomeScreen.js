@@ -123,7 +123,7 @@ export default class HomeScreen extends React.Component {
 }
 
 const addItem = item => {  
-  db.ref('/users').push({
+  db.ref('/login').push({
     item
   });
 };
