@@ -4,12 +4,12 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import MapView from '../screens/MapView';
+import MapViewScreen from '../screens/MapViewScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
-  Map: MapView,
+  Map: MapViewScreen,
 });
 
 HomeStack.navigationOptions = {
@@ -27,7 +27,7 @@ HomeStack.navigationOptions = {
 };
 
 const LinksStack = createStackNavigator({
-  Links: MapView,
+  Links: MapViewScreen,
 });
 
 LinksStack.navigationOptions = {
