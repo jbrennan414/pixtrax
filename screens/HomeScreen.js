@@ -9,10 +9,9 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
-import { WebBrowser } from 'expo';
 
-import { MonoText } from '../components/StyledText';
 import t from 'tcomb-form-native';
+import { StackActions, NavigationActions } from 'react-navigation';
 
 const Form = t.form.Form;
 
@@ -101,7 +100,12 @@ export default class HomeScreen extends React.Component {
 
 
   handleLogin = () => {
-    console.log("FOOOBAAAARRRRR");
+    this.props.navigation.dispatch(
+      NavigationActions.navigate({
+        routeName:'Map'
+      })
+    )
+
   };
 
   handleSignUp = () => {
