@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native';
 
+import { db } from '../config';
 import t from 'tcomb-form-native';
 import { StackActions, NavigationActions } from 'react-navigation';
 
@@ -102,6 +103,7 @@ export default class HomeScreen extends React.Component {
   handleLogin = () => {
     const value = this._form.getValue();
     console.log("1111 value:", value);
+    addItem(value);
 
     this.props.navigation.dispatch(
       NavigationActions.navigate({
@@ -119,6 +121,12 @@ export default class HomeScreen extends React.Component {
     )
   }
 }
+
+const addItem = item => {  
+  db.ref('/users').push({
+    item
+  });
+};
 
 const styles = StyleSheet.create({
   container: {
