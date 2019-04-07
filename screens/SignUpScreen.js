@@ -11,6 +11,7 @@ import { Button } from 'react-native-elements';
 import t from 'tcomb-form-native';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { db } from '../config';
+import * as firebase from 'firebase';
 
 const Form = t.form.Form;
 
@@ -64,10 +65,50 @@ const formStyles = {
 }
 
 
-export default class HomeScreen extends React.Component {
+export default class SignUpScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email:'',
+      password:'',
+      error:'',
+      loading:false,
+    }
+  }
+
+
+
   static navigationOptions = {
     header: null,
   };
+
+
+  onSignUp(){
+    const value = this._form.getValue();
+    this.setState({
+      error:'',
+      loading:true,
+      email: value.email,
+      password: value.password
+    })
+
+    const { email, password } = this.state;
+
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        this.setState({error:'',loading:false});
+        this.props.navigation.dispatch(
+          NavigationActions.navigate({
+            routeName:'Map'
+          })
+        );
+      })
+    .catch(() => {
+      this.setState({error:'Authentication failed', loading: false})
+    })
+
+  }
+
 
   render() {
     return (
@@ -78,12 +119,9 @@ export default class HomeScreen extends React.Component {
           type={User} 
           options={options}
         />
-        <Button 
-          onPress={this.handleSignUp}
-          title="Sign Up!"
-          raised={true}
-        >
-        </Button>
+        <TouchableHighlight 
+          onPress={this.onSignUp.bind(this)}
+        />
       </ScrollView>
     );
   }

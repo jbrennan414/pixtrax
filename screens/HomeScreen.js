@@ -6,11 +6,13 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  TouchableHighlight,
+  Button,
   View,
 } from 'react-native';
 
-import { Button } from 'react-native-elements';
-
+import * as firebase from 'firebase';
+import { FormLabel, FormInput } from 'react-native-elements';
 import { db } from '../config';
 import t from 'tcomb-form-native';
 import { StackActions, NavigationActions } from 'react-navigation';
@@ -62,6 +64,16 @@ const formStyles = {
 
 
 export default class HomeScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email:'',
+      password:'',
+      error:'',
+      loading: false,
+    }
+  }
+
   static navigationOptions = {
     header: null,
   };
@@ -75,13 +87,9 @@ export default class HomeScreen extends React.Component {
           type={User} 
           options={options}
         />
-        <Button 
-          onPress={this.handleLogin}
-          title="Log In!"
-          raised={true}
-          style={styles.button}
-        >
-        </Button>
+        <TouchableHighlight 
+          onPress={this.onLoginPress.bind(this)}
+          />
         <Button 
           onPress={this.handleSignUp}
           title="Sign Up!"
@@ -93,20 +101,35 @@ export default class HomeScreen extends React.Component {
     );
   }
 
+  onLoginPress(){
+    this.setState({error:'', loading:true})
+    const { email, password } = this.state;
+    firebase.auth().signInWithEmailAndPassword(email, password)
+    .then(() => {
+      this.setState({error:'',loading:false});
+      this.props.navigation.dispatch(
+        NavigationActions.navigate({
+          routeName:'Map'
+        })
+      );
+    })
+    .catch(() => {
+      this.setState({error:'Authentication failed', loading: false})
+    })
 
+  }
 
-  handleLogin = () => {
-    const value = this._form.getValue();
-    console.log("1111 value:", value);
-    addItem(value);
-
-    this.props.navigation.dispatch(
-      NavigationActions.navigate({
-        routeName:'Map'
-      })
-    );
-
-  };
+  renderButtonOrLoading(){
+    if (this.state.loading) {
+      return <Text> Loading </Text>
+    }
+    return <View>
+      <Button
+        onPress={this.onLoginPress.bind(this)}
+        title='Login'
+      />
+    </View>
+  }
 
   handleSignUp = () => {
     this.props.navigation.dispatch(
