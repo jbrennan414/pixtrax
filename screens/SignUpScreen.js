@@ -82,32 +82,20 @@ export default class SignUpScreen extends React.Component {
 
   onSignUp(){
     const value = this._form.getValue();
+    let email = value.email;
+    let password = value.password;
 
-    this.setState({
-      error:'',
-      loading:true,
-      email: value.email,
-      password: value.password
+    firebase.auth().createUserWithEmailAndPassword(email, password).then(function() {
+
+      this.props.navigation.dispatch(
+        NavigationActions.navigate({
+          routeName:'Map'
+        })
+      );
+    }).catch(function(error) {
+      console.log("ERRORRRR:", error)
     })
-
-    const { email, password } = this.state;
-
-    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
-      if (error) {
-        console.log('DUUUUDE BIG ERROR OVER HERE', error);
-        return;
-      }
-      
-      this.setState({error:'',loading:false});
-        this.props.navigation.dispatch(
-          NavigationActions.navigate({
-            routeName:'Map'
-          })
-        );
-    })
-
   }
-
 
   render() {
     return (

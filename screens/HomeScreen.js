@@ -99,35 +99,20 @@ export default class HomeScreen extends React.Component {
   }
 
   onLoginPress(){
-    this.setState({error:'', loading:true})
-    const { email, password } = this.state;
-    firebase.auth().signInWithEmailAndPassword(email, password)
-    .then(() => {
-      console.log("DUDE IT FUUUUCKING WORKED");
-      this.setState({error:'',loading:false});
+    const value = this._form.getValue();
+    let email = value.email;
+    let password = value.password;
+
+    firebase.auth().signInWithEmailAndPassword(email, password).then(function() {
+
       this.props.navigation.dispatch(
         NavigationActions.navigate({
           routeName:'Map'
         })
       );
+    }).catch(function(error) {
+      console.log("ERRORRRR:", error)
     })
-    .catch(() => {
-      console.log("BBBBBBB catch");
-      this.setState({error:'Authentication failed', loading: false})
-    })
-
-  }
-
-  renderButtonOrLoading(){
-    if (this.state.loading) {
-      return <Text> Loading </Text>
-    }
-    return <View>
-      <Button
-        onPress={this.onLoginPress.bind(this)}
-        title='Login'
-      />
-    </View>
   }
 
   handleSignUp = () => {
@@ -167,17 +152,6 @@ const styles = StyleSheet.create({
   codeHighlightText: {
     color: 'rgba(96,100,109, 0.8)',
   },
-  codeHighlightContainer: {
-    backgroundColor: 'rgba(0,0,0,0.05)',
-    borderRadius: 3,
-    paddingHorizontal: 4,
-  },
-  getStartedText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    lineHeight: 24,
-    textAlign: 'center',
-  },
   tabBarInfoContainer: {
     position: 'absolute',
     bottom: 0,
@@ -202,9 +176,6 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: 'rgba(96,100,109, 1)',
     textAlign: 'center',
-  },
-  navigationFilename: {
-    marginTop: 5,
   },
   helpContainer: {
     marginTop: 15,
