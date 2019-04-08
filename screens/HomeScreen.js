@@ -88,15 +88,13 @@ export default class HomeScreen extends React.Component {
           options={options}
         />
         <TouchableHighlight 
-          onPress={this.onLoginPress.bind(this)}
-          />
-        <Button 
-          onPress={this.handleSignUp}
-          title="Sign Up!"
-          raised={true}
-          style={styles.button}
-        >
-        </Button>
+          onPress={this.onLoginPress.bind(this)}>
+          <Text>Login</Text>
+        </TouchableHighlight>
+        <TouchableHighlight 
+          onPress={this.handleSignUp.bind(this)}>
+          <Text>Sign Up</Text>
+        </TouchableHighlight>
       </View>
     );
   }

@@ -3,6 +3,7 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
+  TouchableHighlight,
   Text,
 } from 'react-native';
 
@@ -120,8 +121,9 @@ export default class SignUpScreen extends React.Component {
           options={options}
         />
         <TouchableHighlight 
-          onPress={this.onSignUp.bind(this)}
-        />
+          onPress={this.onSignUp.bind(this)}>
+          <Text>Sign Up!</Text>
+        </TouchableHighlight>
       </ScrollView>
     );
   }
