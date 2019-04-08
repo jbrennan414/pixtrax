@@ -7,8 +7,6 @@ import {
   Text,
 } from 'react-native';
 
-import { Button } from 'react-native-elements';
-
 import t from 'tcomb-form-native';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { db } from '../config';
@@ -77,8 +75,6 @@ export default class SignUpScreen extends React.Component {
     }
   }
 
-
-
   static navigationOptions = {
     header: null,
   };
@@ -86,6 +82,7 @@ export default class SignUpScreen extends React.Component {
 
   onSignUp(){
     const value = this._form.getValue();
+
     this.setState({
       error:'',
       loading:true,
@@ -95,17 +92,18 @@ export default class SignUpScreen extends React.Component {
 
     const { email, password } = this.state;
 
-    firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then(() => {
-        this.setState({error:'',loading:false});
+    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+      if (error) {
+        console.log('DUUUUDE BIG ERROR OVER HERE', error);
+        return;
+      }
+      
+      this.setState({error:'',loading:false});
         this.props.navigation.dispatch(
           NavigationActions.navigate({
             routeName:'Map'
           })
         );
-      })
-    .catch(() => {
-      this.setState({error:'Authentication failed', loading: false})
     })
 
   }

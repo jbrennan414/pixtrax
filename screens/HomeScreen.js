@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 
 import * as firebase from 'firebase';
-import { FormLabel, FormInput } from 'react-native-elements';
 import { db } from '../config';
 import t from 'tcomb-form-native';
 import { StackActions, NavigationActions } from 'react-navigation';
@@ -104,6 +103,7 @@ export default class HomeScreen extends React.Component {
     const { email, password } = this.state;
     firebase.auth().signInWithEmailAndPassword(email, password)
     .then(() => {
+      console.log("DUDE IT FUUUUCKING WORKED");
       this.setState({error:'',loading:false});
       this.props.navigation.dispatch(
         NavigationActions.navigate({
@@ -112,6 +112,7 @@ export default class HomeScreen extends React.Component {
       );
     })
     .catch(() => {
+      console.log("BBBBBBB catch");
       this.setState({error:'Authentication failed', loading: false})
     })
 

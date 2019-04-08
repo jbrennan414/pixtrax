@@ -1,9 +1,9 @@
 {
   "devToolsPort": 19004,
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null
+  "expoServerPort": 19001,
+  "packagerPort": 19011,
+  "packagerPid": 57259,
+  "expoServerNgrokUrl": "https://yv-6a2.anonymous.pixtrax.exp.direct",
+  "packagerNgrokUrl": "https://packager.yv-6a2.anonymous.pixtrax.exp.direct",
+  "ngrokPid": 57279
 }
