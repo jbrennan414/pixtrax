@@ -103,16 +103,21 @@ export default class HomeScreen extends React.Component {
     let email = value.email;
     let password = value.password;
 
-    firebase.auth().signInWithEmailAndPassword(email, password).then(function() {
+    firebase.auth().signInWithEmailAndPassword(email, password).then(function(user) {
+      console.log("AAAAAAA user", user);
 
-      this.props.navigation.dispatch(
-        NavigationActions.navigate({
-          routeName:'Map'
-        })
-      );
     }).catch(function(error) {
-      console.log("ERRORRRR:", error)
-    })
+       var errorCode = error.code;
+       var errorMessage = error.message;
+   
+       if (errorCode === 'auth/wrong-password') {
+           alert('Wrong password.');
+       } else {
+           alert(errorMessage);         
+       }
+       console.log(error);
+   });
+
   }
 
   handleSignUp = () => {
@@ -176,10 +181,6 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: 'rgba(96,100,109, 1)',
     textAlign: 'center',
-  },
-  helpContainer: {
-    marginTop: 15,
-    alignItems: 'center',
   },
   helpLink: {
     paddingVertical: 15,
