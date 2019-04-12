@@ -70,6 +70,7 @@ export default class HomeScreen extends React.Component {
       password:'',
       error:'',
       loading: false,
+      authenticated: false,
     }
   }
 
@@ -100,23 +101,23 @@ export default class HomeScreen extends React.Component {
 
   onLoginPress(){
     const value = this._form.getValue();
+    this.setState({ error:'', loading: true });
     let email = value.email;
     let password = value.password;
 
-    firebase.auth().signInWithEmailAndPassword(email, password).then(function(user) {
-      console.log("AAAAAAA user", user);
-
-    }).catch(function(error) {
-       var errorCode = error.code;
-       var errorMessage = error.message;
-   
-       if (errorCode === 'auth/wrong-password') {
-           alert('Wrong password.');
-       } else {
-           alert(errorMessage);         
-       }
-       console.log(error);
-   });
+    firebase.auth().signInWithEmailAndPassword(email, password)
+      .then(() => {
+        this.setState({ error:'', loading: false });
+        this.props.navigation.dispatch(
+          NavigationActions.navigate({
+            routeName:'Map'
+          })
+        )
+      })
+      .catch(() => {
+        console.log("NAH DUDE THATS WRONG")
+        this.setState({error: 'Authentication failed', loading: false});
+      })
 
   }
 
