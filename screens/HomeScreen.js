@@ -147,6 +147,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize:24,
     textAlign: 'center',
+
   },
   button: {
     fontSize:24,
