@@ -79,6 +79,11 @@ export default class HomeScreen extends React.Component {
   };
 
   render() {
+  
+    let user = firebase.auth().currentUser;
+    console.log('This is your user:', user);
+
+
     return (
       <View style={styles.container}>
         <Text style={styles.header}>PixTrax</Text>

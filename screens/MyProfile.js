@@ -4,6 +4,7 @@ import {
   ScrollView,
   StyleSheet,
   TouchableHighlight,
+  View,
   Text,
 } from 'react-native';
 
@@ -13,9 +14,6 @@ import { db } from '../config';
 import * as firebase from 'firebase';
 
 const Form = t.form.Form;
-
-
-
 
 export default class MyProfile extends React.Component {
   constructor(props) {
@@ -55,29 +53,28 @@ export default class MyProfile extends React.Component {
 
     let user = firebase.auth().currentUser;
 
-    console.log("MY PROFILE:", user);
+    console.log("1111111 this is your currentUser:", user);
 
-    if (user){
-      console.log('MYYYYYPROFILE', user.email);
-    } else {
-      console.log('WE DIDNT LOG IN', user)
-    }
-
-    
     return (
-      <ScrollView style={styles.container}>
-        <Text style={styles.header}>PixTrax</Text>
-        <Text>Display Name: {user.displayName}</Text>
-        <Text>Email: {user.email}</Text>
-        <Text>Change My Password</Text>
-        <TouchableHighlight 
-          onPress={this.onSignUp.bind(this)}>
-          <Text>Edit</Text>
-        </TouchableHighlight>
-
-
-      </ScrollView>
-    );
+        <ScrollView style={styles.container}>
+          {user ? (
+            <View>
+              <Text style={styles.header}>PixTrax</Text>
+              <Text>Display Name: {user.displayName}</Text>
+              <Text>Email: {user.email}</Text>
+              <Text>Change My Password</Text>
+              <TouchableHighlight 
+                onPress={this.onSignUp.bind(this)}>
+                <Text>Edit</Text>
+              </TouchableHighlight>
+            </View>
+          ):(
+            <View>
+              <Text>Please Sign In</Text>
+            </View>
+          )}
+        </ScrollView>
+      );
   }
 
   handleSignUp = () => {
