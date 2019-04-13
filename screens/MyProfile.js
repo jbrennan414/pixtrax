@@ -35,6 +35,7 @@ export default class MyProfile extends React.Component {
 
   onSignUp(){
     const value = this._form.getValue();
+
     let email = value.email;
     let password = value.password;
 
@@ -51,12 +52,23 @@ export default class MyProfile extends React.Component {
   }
 
   render() {
+
+    let user = firebase.auth().currentUser;
+
+    console.log("MY PROFILE:", user);
+
+    if (user){
+      console.log('MYYYYYPROFILE', user.email);
+    } else {
+      console.log('WE DIDNT LOG IN', user)
+    }
+
+    
     return (
       <ScrollView style={styles.container}>
         <Text style={styles.header}>PixTrax</Text>
-        <Text>Name: John Brennan</Text>
-        <Text>Username: jpb55116</Text>
-        <Text>Email: jpb55116@gmail.com</Text>
+        <Text>Display Name: {user.displayName}</Text>
+        <Text>Email: {user.email}</Text>
         <Text>Change My Password</Text>
         <TouchableHighlight 
           onPress={this.onSignUp.bind(this)}>

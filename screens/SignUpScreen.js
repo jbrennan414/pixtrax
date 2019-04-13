@@ -82,10 +82,22 @@ export default class SignUpScreen extends React.Component {
 
   onSignUp(){
     const value = this._form.getValue();
+
     let email = value.email;
     let password = value.password;
+    let displayName = value.username;
 
     firebase.auth().createUserWithEmailAndPassword(email, password).then(function() {
+      let user = firebase.auth().currentUser;
+      user.updateProfile({
+        displayName: displayName
+      }).then(() => {
+        console.log("Updating Profile")
+      }).catch(() => {
+        console.log("There was an issue updating your profile.")
+      })
+
+      addItem(value);
 
       this.props.navigation.dispatch(
         NavigationActions.navigate({
@@ -114,17 +126,17 @@ export default class SignUpScreen extends React.Component {
     );
   }
 
-  handleSignUp = () => {
+  // handleSignUp = () => {
 
-    const value = this._form.getValue();
-    addItem(value);
+  //   const value = this._form.getValue();
+  //   addItem(value);
 
-    this.props.navigation.dispatch(
-      NavigationActions.navigate({
-        routeName:'Map'
-      })
-    )
-  }
+  //   this.props.navigation.dispatch(
+  //     NavigationActions.navigate({
+  //       routeName:'Map'
+  //     })
+  //   )
+  // }
 };
 
 const addItem = item => {  
