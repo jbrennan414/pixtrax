@@ -1,13 +1,20 @@
 import React from 'react';
 import MapView, { Marker } from 'react-native-maps';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { StyleSheet } from 'react-native';
+import * as firebase from 'firebase';
+
+import { 
+  Button, 
+  Alert,
+  StyleSheet 
+} from 'react-native';
 
 
 export default class MapViewScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      longitude:'',
+      latitude:'',
       markers: [{
         title: 'Cheeseman',
         key:1,
@@ -25,6 +32,8 @@ export default class MapViewScreen extends React.Component {
         },  
       }]
     }
+    
+    this.onRegionChange = this.onRegionChange.bind(this);
   }
 
   static navigationOptions = {
@@ -33,9 +42,22 @@ export default class MapViewScreen extends React.Component {
 
   onRegionChange(region){
     console.log('DUDE LOOKS LIKE YOU CHANGED A REGION', region);
+    latitude = region.latitude;
+    longitude = region.longitude;
+
+    this.setState({ longitude, latitude });
+  }
+
+  addLocation(){
+    console.log("EYYYYY YOU HIT ADD LOCATION", this.state)
   }
 
   render() {
+
+    let user = firebase.auth().currentUser;
+    console.log("FOOOOOOOOOOOOO ", user.uid);
+
+
     return (
       <MapView
         onRegionChange={this.onRegionChange}
@@ -53,12 +75,10 @@ export default class MapViewScreen extends React.Component {
             title={marker.title}
           />
         ))}
-        <Icon
-          style ={styles.container}
-          name="plus-circle"
-          color="green"
-          size={60}
-        />  
+        <Button
+          onPress={this.addLocation.bind(this)}
+          title="ADD A LOCATION"
+        />
       </MapView>
     );
   }
