@@ -4,8 +4,20 @@ import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 
 export default class App extends React.Component {
+  async componentDidMount() {
+    Font.loadAsync({
+      'roboto-light': require('./assets/fonts/Roboto-Light.ttf'),
+      'roboto-regular': require('./assets/fonts/Roboto-Regular.ttf'),
+      'roboto-thin': require('./assets/fonts/Roboto-Thin.ttf'),
+    });
+
+    this.setState({ fontLoaded: true });
+
+  }
+
   state = {
     isLoadingComplete: false,
+    fontLoaded: false,
   };
 
   render() {

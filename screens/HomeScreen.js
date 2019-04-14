@@ -16,6 +16,7 @@ import { db } from '../config';
 import t from 'tcomb-form-native';
 import { StackActions, NavigationActions } from 'react-navigation';
 
+
 const Form = t.form.Form;
 
 const User = t.struct({
@@ -71,6 +72,7 @@ export default class HomeScreen extends React.Component {
       error:'',
       loading: false,
       authenticated: false,
+      fontLoaded:false,
     }
   }
 
@@ -83,6 +85,7 @@ export default class HomeScreen extends React.Component {
     let user = firebase.auth().currentUser;
     console.log('This is your user:', user);
 
+    console.log("1111111 this.state", this.state);
 
     return (
       <View style={styles.container}>
@@ -95,12 +98,12 @@ export default class HomeScreen extends React.Component {
         <TouchableHighlight
           style={styles.button}
           onPress={this.onLoginPress.bind(this)}>
-          <Text style={styles.buttonText}>Login</Text>
+          <Text style={styles.buttonText}>LOGIN</Text>
         </TouchableHighlight>
         <TouchableHighlight 
           style={styles.button}
           onPress={this.handleSignUp.bind(this)}>
-          <Text style={styles.buttonText}>Sign Up</Text>
+          <Text style={styles.buttonText}>SIGN UP</Text>
         </TouchableHighlight>
       </View>
     );
@@ -152,10 +155,11 @@ const styles = StyleSheet.create({
     alignItems:'center',
   },
   header: {
+    fontWeight:"100",
     fontSize:48,
     textAlign: 'center',
     color:'#CAE4DB',
-    fontFamily: 'Arial'
+    fontFamily: 'roboto-thin'
   },
   button: {
     backgroundColor:'#DCAE1E',
