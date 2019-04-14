@@ -159,7 +159,6 @@ const styles = StyleSheet.create({
     fontSize:48,
     textAlign: 'center',
     color:'#CAE4DB',
-    fontFamily: 'roboto-thin'
   },
   button: {
     backgroundColor:'#DCAE1E',

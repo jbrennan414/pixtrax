@@ -1,10 +1,12 @@
 import React from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import * as firebase from 'firebase';
+import { db } from '../config'
 
 import { 
   Button, 
   Alert,
+  Text,
   StyleSheet 
 } from 'react-native';
 
@@ -15,22 +17,7 @@ export default class MapViewScreen extends React.Component {
     this.state = {
       longitude:'',
       latitude:'',
-      markers: [{
-        title: 'Cheeseman',
-        key:1,
-        coordinates: {
-          latitude: 39.7329,
-          longitude: -104.9668685551582
-        },
-      },
-      {
-        title: 'Zoo',
-        key:2,
-        coordinates: {
-          latitude: 39.7461,
-          longitude: -104.9503
-        },  
-      }]
+      marker: [],
     }
     
     this.onRegionChange = this.onRegionChange.bind(this);
@@ -40,8 +27,33 @@ export default class MapViewScreen extends React.Component {
     title: 'Map',
   };
 
+  componentDidMount(){
+    let marker =[];
+    let query = firebase.database().ref("locations").orderByKey();
+    query.once("value")
+      .then(function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+      // key will be "ada" the first time and "alan" the second time
+        let childData = childSnapshot.val();
+        let pointData = Object.values(childData);
+        pointData = Object.values(pointData)[0];
+        let latitude = pointData["latitude"];
+        let longitude = pointData["longitude"];
+        let oldData = {
+          title: 'TestLocation',
+          coordinates:{
+            latitude: latitude,
+            longitude: longitude,
+          }
+        }
+        marker.push(oldData);
+      });
+    })
+
+
+  }
+
   onRegionChange(region){
-    console.log('DUDE LOOKS LIKE YOU CHANGED A REGION', region);
     latitude = region.latitude;
     longitude = region.longitude;
 
@@ -49,14 +61,23 @@ export default class MapViewScreen extends React.Component {
   }
 
   addLocation(){
-    console.log("EYYYYY YOU HIT ADD LOCATION", this.state)
+
+    //I need to get access to user.uid here
+    let latitude = this.state.latitude;
+    let longitude = this.state.longitude;
+
+    let locationObject= { 
+      latitude: latitude,
+      longitude: longitude,
+    }
+
+    db.ref('/locations').push({
+      locationObject
+    });
   }
 
   render() {
-
-    let user = firebase.auth().currentUser;
-    console.log("FOOOOOOOOOOOOO ", user.uid);
-
+    // let user = firebase.auth().currentUser;
 
     return (
       <MapView
@@ -69,12 +90,16 @@ export default class MapViewScreen extends React.Component {
             longitudeDelta: 0.0421,
           }}
       >
-        {this.state.markers.map(marker => (
-          <MapView.Marker 
-            coordinate={marker.coordinates}
-            title={marker.title}
-          />
-        ))}
+        {/* {markers ? (
+          this.state.markers.map(marker => (
+            <MapView.Marker
+              coordinate={marker.coordinates}
+              title={marker.title}
+            />
+          ))
+        ) : (
+          <Text>No points!</Text>
+        )} */}
         <Button
           onPress={this.addLocation.bind(this)}
           title="ADD A LOCATION"
