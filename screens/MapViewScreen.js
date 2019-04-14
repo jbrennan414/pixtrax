@@ -17,7 +17,22 @@ export default class MapViewScreen extends React.Component {
     this.state = {
       longitude:'',
       latitude:'',
-      marker: [],
+      markers: [{
+        title: 'Cheeseman',
+        key:1,
+        coordinates: {
+          latitude: 39.7329,
+          longitude: -104.9668685551582
+        },
+      },
+      {
+        title: 'Zoo',
+        key:2,
+        coordinates: {
+          latitude: 39.7461,
+          longitude: -104.9503
+        },  
+      }]
     }
     
     this.onRegionChange = this.onRegionChange.bind(this);
@@ -61,7 +76,6 @@ export default class MapViewScreen extends React.Component {
   }
 
   addLocation(){
-
     //I need to get access to user.uid here
     let latitude = this.state.latitude;
     let longitude = this.state.longitude;
@@ -78,6 +92,7 @@ export default class MapViewScreen extends React.Component {
 
   render() {
     // let user = firebase.auth().currentUser;
+    console.log("!!!!!!!!! how often do we hit this?")
 
     return (
       <MapView
@@ -90,16 +105,12 @@ export default class MapViewScreen extends React.Component {
             longitudeDelta: 0.0421,
           }}
       >
-        {/* {markers ? (
-          this.state.markers.map(marker => (
-            <MapView.Marker
-              coordinate={marker.coordinates}
-              title={marker.title}
-            />
-          ))
-        ) : (
-          <Text>No points!</Text>
-        )} */}
+       {this.state.markers.map(marker => (
+          <MapView.Marker 
+            coordinate={marker.coordinates}
+            title={marker.title}
+          />
+        ))}
         <Button
           onPress={this.addLocation.bind(this)}
           title="ADD A LOCATION"
