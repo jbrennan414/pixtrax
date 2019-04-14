@@ -92,13 +92,15 @@ export default class HomeScreen extends React.Component {
           type={User} 
           options={options}
         />
-        <TouchableHighlight 
+        <TouchableHighlight
+          style={styles.button}
           onPress={this.onLoginPress.bind(this)}>
-          <Text>Login</Text>
+          <Text style={styles.buttonText}>Login</Text>
         </TouchableHighlight>
         <TouchableHighlight 
+          style={styles.button}
           onPress={this.handleSignUp.bind(this)}>
-          <Text>Sign Up</Text>
+          <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableHighlight>
       </View>
     );
@@ -144,19 +146,27 @@ const addItem = item => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#00303F',
     padding: 40,
     marginTop: 40,
-
+    alignItems:'center',
   },
   header: {
-    fontSize:24,
+    fontSize:48,
     textAlign: 'center',
-
+    color:'#CAE4DB',
+    fontFamily: 'Arial'
   },
   button: {
-    fontSize:24,
-    textAlign:'center',
+    backgroundColor:'#DCAE1E',
+    alignItems:'center',
+    height:29,
+    width:136,
+    padding: 5,
+    margin: 5,
+  },
+  buttonText: {
+    color:'#00303F'
   },
   homeScreenFilename: {
     marginVertical: 7,
