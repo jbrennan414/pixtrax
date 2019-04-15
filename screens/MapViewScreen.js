@@ -10,6 +10,8 @@ import {
   StyleSheet 
 } from 'react-native';
 
+import { NavigationActions } from 'react-navigation';
+
 
 export default class MapViewScreen extends React.Component {
   constructor(props) {
@@ -88,6 +90,12 @@ export default class MapViewScreen extends React.Component {
     db.ref('/locations').push({
       locationObject
     });
+
+    this.props.navigation.dispatch(
+      NavigationActions.navigate({
+        routeName:'Camera'
+      })
+    )
   }
 
   render() {

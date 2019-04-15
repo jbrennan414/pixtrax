@@ -7,12 +7,14 @@ import HomeScreen from '../screens/HomeScreen';
 import MapViewScreen from '../screens/MapViewScreen';
 import MyProfile from '../screens/MyProfile';
 import SignUpScreen from '../screens/SignUpScreen';
+import CameraScreen from '../screens/Camera';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
   Map: MapViewScreen,
   SignUp: SignUpScreen,
-  Profile: MyProfile
+  Profile: MyProfile,
+  Camera: CameraScreen
 });
 
 HomeStack.navigationOptions = {
@@ -20,11 +22,7 @@ HomeStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
+      name={Platform.OS === 'ios' ? 'ios-home' : 'md-home'}
     />
   ),
 };
@@ -38,7 +36,7 @@ LinksStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
+      name={Platform.OS === 'ios' ? 'ios-map' : 'md-map'}
     />
   ),
 };
@@ -52,7 +50,7 @@ SettingsStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
+      name={Platform.OS === 'ios' ? 'ios-person' : 'md-person'}
     />
   ),
 };
