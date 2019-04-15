@@ -43,7 +43,7 @@ export default class MapViewScreen extends React.Component {
   };
 
   componentDidMount(){
-    let marker =[];
+    let markers = this.state.markers;
     let query = firebase.database().ref("locations").orderByKey();
     query.once("value")
       .then(function(snapshot) {
@@ -61,7 +61,7 @@ export default class MapViewScreen extends React.Component {
             longitude: longitude,
           }
         }
-        marker.push(oldData);
+        markers.push(oldData);
       });
     })
 
@@ -92,7 +92,7 @@ export default class MapViewScreen extends React.Component {
 
   render() {
     // let user = firebase.auth().currentUser;
-    console.log("!!!!!!!!! how often do we hit this?")
+    console.log("We hit the render")
 
     return (
       <MapView
