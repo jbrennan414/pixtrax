@@ -2,15 +2,16 @@ import React from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import * as firebase from 'firebase';
 import { db } from '../config'
+import { Permissions, Location } from 'expo';
 
 import { 
-  Button, 
-  Alert,
   Text,
-  StyleSheet 
+  StyleSheet,
+  TouchableOpacity,
 } from 'react-native';
 
 import { NavigationActions } from 'react-navigation';
+import { Ionicons } from '@expo/vector-icons';
 
 
 export default class MapViewScreen extends React.Component {
@@ -19,6 +20,7 @@ export default class MapViewScreen extends React.Component {
     this.state = {
       longitude:'',
       latitude:'',
+      locationResult:null,
       markers: [{
         title: 'Cheeseman',
         key:1,
@@ -45,6 +47,9 @@ export default class MapViewScreen extends React.Component {
   };
 
   componentDidMount(){
+    this.getLocationAsync();
+
+
     let markers = this.state.markers;
     let query = firebase.database().ref("locations").orderByKey();
     query.once("value")
@@ -98,14 +103,26 @@ export default class MapViewScreen extends React.Component {
     )
   }
 
+  getLocationAsync = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      this.setState({
+        locationResult: 'Permission to access location was denied',
+        location,
+      });
+    }
+ 
+    let location = await Location.getCurrentPositionAsync({});
+    this.setState({ locationResult: JSON.stringify(location), location, });
+  };
+
   render() {
     // let user = firebase.auth().currentUser;
-    console.log("We hit the render")
 
     return (
       <MapView
         onRegionChange={this.onRegionChange}
-        style={{ flex: 1 }}
+        style={styles.container}
           initialRegion={{
             latitude: 39.7392,
             longitude: -104.9903,
@@ -119,10 +136,20 @@ export default class MapViewScreen extends React.Component {
             title={marker.title}
           />
         ))}
-        <Button
-          onPress={this.addLocation.bind(this)}
-          title="ADD A LOCATION"
+        {this.state.location ? (
+        <MapView.Marker
+          coordinate={this.state.location.coords}
+          title="MY ACTUAL LOCATION"
+          description="Some description"
+          image={require('../assets/images/location.png')}
         />
+        ):(<Text></Text>)}
+        <TouchableOpacity
+          style={styles.container}
+          onPress={this.addLocation.bind(this)}>
+            <Ionicons name="ios-camera" size={40} color="#00303F" />
+        </TouchableOpacity>
+        
       </MapView>
     );
   }
@@ -130,10 +157,8 @@ export default class MapViewScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
-    textAlign:'center',
     flex: 1,
-    bottom: 0,
-    position: 'absolute'
-  }
+    justifyContent: 'center',
+    alignItems:'flex-end'
+  },
 })
