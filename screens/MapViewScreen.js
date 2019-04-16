@@ -21,6 +21,8 @@ export default class MapViewScreen extends React.Component {
       longitude:'',
       latitude:'',
       locationResult:null,
+      currentLatitude:'',
+      currentLocation:'',
       markers: [{
         title: 'Cheeseman',
         key:1,
@@ -113,17 +115,25 @@ export default class MapViewScreen extends React.Component {
     }
  
     let location = await Location.getCurrentPositionAsync({});
-    this.setState({ locationResult: JSON.stringify(location), location, });
+    let latitude = location.coords.latitude;
+    let longitude = location.coords.longitude;
+
+    this.setState({ 
+      currentLatitude: latitude,
+      currentLocation: longitude,
+      locationResult: JSON.stringify(location), location,
+    });
   };
 
   render() {
-    // let user = firebase.auth().currentUser;
+
+    console.log("11111 this.state.location", this.state.location)
 
     return (
       <MapView
         onRegionChange={this.onRegionChange}
         style={styles.container}
-          initialRegion={{
+        initialRegion={{
             latitude: 39.7392,
             longitude: -104.9903,
             latitudeDelta: 0.0922,
