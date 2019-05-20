@@ -1,7 +1,8 @@
 import React from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, CameraRoll,  Alert,  View, TouchableOpacity } from 'react-native';
 import { Camera, Permissions } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
+import { takeSnapshotAsync } from 'expo';
 
 export default class CameraExample extends React.Component {
   state = {
@@ -14,8 +15,12 @@ export default class CameraExample extends React.Component {
     this.setState({ hasCameraPermission: status === 'granted' });
   }
 
-  takePhoto(){
-      console.log("YOU TOOK A PHOTO")
+  _onSaySave = async () => {
+    const uri = await takeSnapshotAsync(this.picture);
+    await CameraRoll.saveToCameraRoll(uri)
+      .then(() => {
+        Alert.alert("Image has been saved");
+      });
   }
 
   render() {
@@ -26,8 +31,8 @@ export default class CameraExample extends React.Component {
       return <Text>No access to camera</Text>;
     } else {
       return (
-        <View style={{ flex: 1 }}>
-          <Camera style={{ flex: 1 }} type={this.state.type}>
+        <View ref={(r) => this.picture = r} style={{ flex: 1 }}>
+          <Camera ref={ref => { this.camera = ref; }} style={{ flex: 1 }} type={this.state.type}>
             <View
               style={{
                 flex: 1,
@@ -40,7 +45,7 @@ export default class CameraExample extends React.Component {
                   alignSelf: 'flex-end',
                   alignItems: 'center',
                 }}
-                onPress={this.takePhoto.bind(this)}>
+                onPress={ this._onSaySave }>
                 <Ionicons name="ios-aperture" size={40} color="white" />
               </TouchableOpacity>
             </View>
