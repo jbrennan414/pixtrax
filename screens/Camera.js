@@ -2,7 +2,6 @@ import React from 'react';
 import { Text, CameraRoll,  Alert,  View, TouchableOpacity } from 'react-native';
 import { Camera, Permissions } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
-import { takeSnapshotAsync } from 'expo';
 
 export default class CameraExample extends React.Component {
   state = {
@@ -16,11 +15,15 @@ export default class CameraExample extends React.Component {
   }
 
   _onSaySave = async () => {
-    const uri = await takeSnapshotAsync(this.picture);
-    await CameraRoll.saveToCameraRoll(uri)
-      .then(() => {
-        Alert.alert("Image has been saved");
-      });
+    if (this.camera) {
+      console.log('Taking photo');
+      const options = { quality: 1, base64: true, fixOrientation: true, 
+      exif: true};
+      await this.camera.takePictureAsync(options).then(photo => {
+         photo.exif.Orientation = 1;            
+          console.log(photo);            
+          });     
+    }
   }
 
   render() {

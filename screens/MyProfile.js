@@ -12,6 +12,9 @@ import t from 'tcomb-form-native';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { db } from '../config';
 import * as firebase from 'firebase';
+import ErrorSnackbar from '../components/Snackbar';
+import { Snackbar } from 'react-native-paper';
+
 
 const Form = t.form.Form;
 
@@ -45,8 +48,19 @@ export default class MyProfile extends React.Component {
         })
       );
     }).catch(function(error) {
-      console.log("ERRORRRR:", error)
-    })
+      console.log("ERRORRRR:", error);
+      <Snackbar
+          visible={true}
+          onDismiss={() => this.setState({ visible: false })}
+          action={{
+            label: 'Undo',
+            onPress: () => {
+              // Do something
+            },
+          }}
+        >
+            Heyyyyyyyyyy
+        </Snackbar>    })
   }
 
   render() {
