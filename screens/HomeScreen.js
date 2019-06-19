@@ -9,6 +9,7 @@ import {
   TouchableHighlight,
   Button,
   View,
+  TextInput,
 } from 'react-native';
 
 import * as firebase from 'firebase';
@@ -73,6 +74,8 @@ export default class HomeScreen extends React.Component {
       loading: false,
       authenticated: false,
       fontLoaded:false,
+      email: "Email",
+      password: "Password",
     }
   }
 
@@ -88,10 +91,15 @@ export default class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Text style={styles.header}>PixTrax</Text>
-        <Form 
-          ref={c => this._form = c}
-          type={User} 
-          options={options}
+        <TextInput 
+          style={{height: 52, width: 272, fontSize: 24, textAlign:'center', marginBottom:20, justifyContent:'center', color: '#7A9D96', backgroundColor:'#CAE4DB'}}
+          value={this.state.email}
+          onChangeText={(email) => this.setState({email})}
+        />
+        <TextInput 
+          style={{height: 52, width: 272, fontSize: 24, textAlign:'center', marginBottom: 20, color: '#7A9D96', backgroundColor:'#CAE4DB'}}
+          value={this.state.password}
+          onChangeText={(password) => this.setState({password})}
         />
         <TouchableHighlight
           style={styles.button}
@@ -148,22 +156,25 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#00303F',
-    padding: 40,
+    paddingTop: 120,
     alignItems:'center',
   },
   header: {
     fontWeight:"100",
-    fontSize:48,
+    fontSize:52,
+    letterSpacing:3,
     textAlign: 'center',
     color:'#CAE4DB',
+    paddingBottom:20,
   },
   button: {
     backgroundColor:'#DCAE1E',
     alignItems:'center',
+    color:'#00303F',
     height:29,
     width:136,
+    marginBottom: 10,
     padding: 5,
-    margin: 5,
   },
   buttonText: {
     color:'#00303F'
