@@ -1,13 +1,9 @@
 import React from 'react';
 import {
-  Image,
   Platform,
-  ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   TouchableHighlight,
-  Button,
   View,
   TextInput,
 } from 'react-native';
@@ -15,7 +11,7 @@ import {
 import * as firebase from 'firebase';
 import { db } from '../config';
 import t from 'tcomb-form-native';
-import { StackActions, NavigationActions } from 'react-navigation';
+import { NavigationActions } from 'react-navigation';
 
 
 const Form = t.form.Form;
@@ -170,7 +166,6 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor:'#DCAE1E',
     alignItems:'center',
-    color:'#00303F',
     height:29,
     width:136,
     marginBottom: 10,
