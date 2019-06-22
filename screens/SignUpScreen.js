@@ -7,10 +7,9 @@ import {
   TextInput,
 } from 'react-native';
 
-import t from 'tcomb-form-native';
 import { db } from '../config';
 import * as firebase from 'firebase';
-import { Snackbar } from 'react-native-paper';
+import { NavigationActions } from 'react-navigation';
 
 
 export default class SignUpScreen extends React.Component {
@@ -36,22 +35,6 @@ export default class SignUpScreen extends React.Component {
   onSignUp(){
     const value = this.state;
 
-    if (value.password !== value.confirmpassword){
-      <Snackbar
-        visible={true}
-        onDismiss={() => this.setState({ visible: false })}
-        action={{
-          label: 'Undo',
-          onPress: () => {
-            // Do something
-          },
-        }}
-      >
-        Heyyyyyyyyyy
-      </Snackbar>    
-    }
-    
-
     let email = value.email;
     let password = value.password;
     let displayName = value.displayname;
@@ -63,19 +46,21 @@ export default class SignUpScreen extends React.Component {
       }).then(() => {
         console.log("Updating Profile")
       }).catch(() => {
-        console.log("There was an issue updating your profile.")
+        return console.log("There was an issue updating your profile.")
       })
 
       addItem(value);
 
-      this.props.navigation.dispatch(
-        NavigationActions.navigate({
-          routeName:'Map'
-        })
-      );
     }).catch(function(error) {
-      console.log("ERRORRRR:", error)
+      return console.log("ERRORRRR:", error)
     })
+
+    this.props.navigation.dispatch(
+      NavigationActions.navigate({
+        routeName:'Map'
+      })
+    )
+    
   }
 
   render() {
