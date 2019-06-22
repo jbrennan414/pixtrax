@@ -5,6 +5,8 @@ import {
   StyleSheet,
   TouchableHighlight,
   Text,
+  View,
+  TextInput,
 } from 'react-native';
 
 import t from 'tcomb-form-native';
@@ -72,6 +74,10 @@ export default class SignUpScreen extends React.Component {
       password:'',
       error:'',
       loading:false,
+      username: "Username",
+      email: "Email",
+      password: "Password",
+      confirmpassword: "Confirm Password"
     }
   }
 
@@ -111,32 +117,48 @@ export default class SignUpScreen extends React.Component {
 
   render() {
     return (
-      <ScrollView style={styles.container}>
+      // <ScrollView style={styles.container}>
+      //   <Text style={styles.header}>PixTrax</Text>
+      //   <Form 
+      //     ref={c => this._form = c}
+      //     type={User} 
+      //     options={options}
+      //   />
+      //   <TouchableHighlight 
+      //     onPress={this.onSignUp.bind(this)}>
+      //     <Text>Sign Up!</Text>
+      //   </TouchableHighlight>
+      // </ScrollView>
+      <View style={styles.container}>
         <Text style={styles.header}>PixTrax</Text>
-        <Form 
-          ref={c => this._form = c}
-          type={User} 
-          options={options}
+        <TextInput 
+          style={{height: 52, width: 272, fontSize: 24, textAlign:'center', marginBottom:20, justifyContent:'center', color: '#7A9D96', backgroundColor:'#CAE4DB'}}
+          value={this.state.username}
+          onChangeText={(username) => this.setState({username})}
+        />
+        <TextInput 
+          style={{height: 52, width: 272, fontSize: 24, textAlign:'center', marginBottom: 20, color: '#7A9D96', backgroundColor:'#CAE4DB'}}
+          value={this.state.email}
+          onChangeText={(email) => this.setState({email})}
+        />
+        <TextInput 
+          style={{height: 52, width: 272, fontSize: 24, textAlign:'center', marginBottom: 20, color: '#7A9D96', backgroundColor:'#CAE4DB'}}
+          value={this.state.password}
+          onChangeText={(password) => this.setState({password})}
+        />
+        <TextInput 
+          style={{height: 52, width: 272, fontSize: 24, textAlign:'center', marginBottom: 20, color: '#7A9D96', backgroundColor:'#CAE4DB'}}
+          value={this.state.confirmpassword}
+          onChangeText={(confirmpassword) => this.setState({confirmpassword})}
         />
         <TouchableHighlight 
+          style={styles.button}
           onPress={this.onSignUp.bind(this)}>
-          <Text>Sign Up!</Text>
-        </TouchableHighlight>
-      </ScrollView>
+          <Text style={styles.buttonText}>SIGN UP</Text>
+      </TouchableHighlight>
+    </View>
     );
   }
-
-  // handleSignUp = () => {
-
-  //   const value = this._form.getValue();
-  //   addItem(value);
-
-  //   this.props.navigation.dispatch(
-  //     NavigationActions.navigate({
-  //       routeName:'Map'
-  //     })
-  //   )
-  // }
 };
 
 const addItem = item => {  
@@ -148,73 +170,27 @@ const addItem = item => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    padding: 40,
-    marginTop: 40,
-
+    backgroundColor: '#00303F',
+    paddingTop: 120,
+    alignItems:'center',
   },
   header: {
-    fontSize:24,
+    fontWeight:"100",
+    fontSize:52,
+    letterSpacing:3,
     textAlign: 'center',
+    color:'#CAE4DB',
+    paddingBottom:20,
   },
   button: {
-    fontSize:24,
-    textAlign:'center',
+    backgroundColor:'#DCAE1E',
+    alignItems:'center',
+    height:29,
+    width:136,
+    marginBottom: 10,
+    padding: 5,
   },
-  homeScreenFilename: {
-    marginVertical: 7,
-  },
-  codeHighlightText: {
-    color: 'rgba(96,100,109, 0.8)',
-  },
-  codeHighlightContainer: {
-    backgroundColor: 'rgba(0,0,0,0.05)',
-    borderRadius: 3,
-    paddingHorizontal: 4,
-  },
-  getStartedText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    lineHeight: 24,
-    textAlign: 'center',
-  },
-  tabBarInfoContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    ...Platform.select({
-      ios: {
-        shadowColor: 'black',
-        shadowOffset: { height: -3 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-      },
-      android: {
-        elevation: 20,
-      },
-    }),
-    alignItems: 'center',
-    backgroundColor: '#fbfbfb',
-    paddingVertical: 20,
-  },
-  tabBarInfoText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    textAlign: 'center',
-  },
-  navigationFilename: {
-    marginTop: 5,
-  },
-  helpContainer: {
-    marginTop: 15,
-    alignItems: 'center',
-  },
-  helpLink: {
-    paddingVertical: 15,
-  },
-  helpLinkText: {
-    fontSize: 14,
-    color: '#2e78b7',
+  buttonText: {
+    color:'#00303F'
   },
 });
