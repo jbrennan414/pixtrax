@@ -1,7 +1,5 @@
 import React from 'react';
 import {
-  Platform,
-  ScrollView,
   StyleSheet,
   TouchableHighlight,
   Text,
@@ -10,60 +8,9 @@ import {
 } from 'react-native';
 
 import t from 'tcomb-form-native';
-import { StackActions, NavigationActions } from 'react-navigation';
 import { db } from '../config';
 import * as firebase from 'firebase';
-
-const Form = t.form.Form;
-
-const User = t.struct({
-    name: t.String,
-    username: t.String,
-    email: t.String,
-    password: t.String,
-    confirmPassword: t.String,
-});
-
-const options = {
-  fields: {
-    email: {
-      error: 'We don\'t have that email in our system'
-    },
-    password: {
-        password: true,
-        secureTextEntry: true,
-        error: 'Nope'
-    },
-    confirmPassword: {
-        secureTextEntry: true,
-    }
-  },
-  stylesheet: formStyles,
-};
-
-const formStyles = {
-  ...Form.stylesheet,
-  formGroup: {
-    normal: {
-      marginBottom: 10
-    },
-  },
-  controlLabel: {
-    normal: {
-      color: 'blue',
-      fontSize: 18,
-      marginBottom: 7,
-      fontWeight: '600'
-    },
-    // the style applied when a validation error occours
-    error: {
-      color: 'red',
-      fontSize: 18,
-      marginBottom: 7,
-      fontWeight: '600'
-    }
-  }
-}
+import { Snackbar } from 'react-native-paper';
 
 
 export default class SignUpScreen extends React.Component {
@@ -74,10 +21,10 @@ export default class SignUpScreen extends React.Component {
       password:'',
       error:'',
       loading:false,
-      username: "Username",
-      email: "Email",
-      password: "Password",
-      confirmpassword: "Confirm Password"
+      displayname: "",
+      email: "",
+      password: "",
+      confirmpassword:"",
     }
   }
 
@@ -87,11 +34,27 @@ export default class SignUpScreen extends React.Component {
 
 
   onSignUp(){
-    const value = this._form.getValue();
+    const value = this.state;
+
+    if (value.password !== value.confirmpassword){
+      <Snackbar
+        visible={true}
+        onDismiss={() => this.setState({ visible: false })}
+        action={{
+          label: 'Undo',
+          onPress: () => {
+            // Do something
+          },
+        }}
+      >
+        Heyyyyyyyyyy
+      </Snackbar>    
+    }
+    
 
     let email = value.email;
     let password = value.password;
-    let displayName = value.username;
+    let displayName = value.displayname;
 
     firebase.auth().createUserWithEmailAndPassword(email, password).then(function() {
       let user = firebase.auth().currentUser;
@@ -133,23 +96,29 @@ export default class SignUpScreen extends React.Component {
         <Text style={styles.header}>PixTrax</Text>
         <TextInput 
           style={{height: 52, width: 272, fontSize: 24, textAlign:'center', marginBottom:20, justifyContent:'center', color: '#7A9D96', backgroundColor:'#CAE4DB'}}
-          value={this.state.username}
-          onChangeText={(username) => this.setState({username})}
+          value={this.state.displayname}
+          onChangeText={(displayname) => this.setState({displayname})}
+          placeholder="Display Name"
         />
         <TextInput 
           style={{height: 52, width: 272, fontSize: 24, textAlign:'center', marginBottom: 20, color: '#7A9D96', backgroundColor:'#CAE4DB'}}
           value={this.state.email}
           onChangeText={(email) => this.setState({email})}
+          placeholder="Email"
         />
         <TextInput 
           style={{height: 52, width: 272, fontSize: 24, textAlign:'center', marginBottom: 20, color: '#7A9D96', backgroundColor:'#CAE4DB'}}
           value={this.state.password}
           onChangeText={(password) => this.setState({password})}
+          placeholder="Password"
+          secureTextEntry={true}
         />
         <TextInput 
           style={{height: 52, width: 272, fontSize: 24, textAlign:'center', marginBottom: 20, color: '#7A9D96', backgroundColor:'#CAE4DB'}}
           value={this.state.confirmpassword}
           onChangeText={(confirmpassword) => this.setState({confirmpassword})}
+          placeholder="Confirm Password"
+          secureTextEntry={true}
         />
         <TouchableHighlight 
           style={styles.button}

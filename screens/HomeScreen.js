@@ -70,8 +70,8 @@ export default class HomeScreen extends React.Component {
       loading: false,
       authenticated: false,
       fontLoaded:false,
-      email: "Email",
-      password: "Password",
+      email: "",
+      password: "",
     }
   }
 
@@ -91,11 +91,13 @@ export default class HomeScreen extends React.Component {
           style={{height: 52, width: 272, fontSize: 24, textAlign:'center', marginBottom:20, justifyContent:'center', color: '#7A9D96', backgroundColor:'#CAE4DB'}}
           value={this.state.email}
           onChangeText={(email) => this.setState({email})}
+          placeholder="Email"
         />
         <TextInput 
           style={{height: 52, width: 272, fontSize: 24, textAlign:'center', marginBottom: 20, color: '#7A9D96', backgroundColor:'#CAE4DB'}}
           value={this.state.password}
           onChangeText={(password) => this.setState({password})}
+          placeholder="Password"
         />
         <TouchableHighlight
           style={styles.button}
