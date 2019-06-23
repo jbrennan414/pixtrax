@@ -22,6 +22,7 @@ export default class HomeScreen extends React.Component {
       authenticated: false,
       snackbarVisible: false,
       fontLoaded:false,
+      loggedIn:false,
       email: "",
       password: "",
     }
@@ -33,9 +34,6 @@ export default class HomeScreen extends React.Component {
 
   render() {
   
-    let user = firebase.auth().currentUser;
-    console.log('This is your user:', user);
-
     return (
       <View style={styles.container}>
         <Text style={styles.header}>PixTrax</Text>
@@ -50,38 +48,44 @@ export default class HomeScreen extends React.Component {
           value={this.state.password}
           onChangeText={(password) => this.setState({password})}
           placeholder="Password"
+          secureTextEntry={true}
         />
         <TouchableHighlight
           style={styles.button}
           onPress={this.onLoginPress.bind(this)}>
-          <Text style={styles.buttonText}>LOGIN</Text>
+          {this.state.loggedIn ? (
+            <Text style={styles.buttonText}>LOG OUT</Text>
+          ) : (
+            <Text style={styles.buttonText}>LOGIN</Text>
+          )}
         </TouchableHighlight>
-        <TouchableHighlight 
+        {!this.state.loggedIn ? (<TouchableHighlight 
           style={styles.button}
           onPress={this.handleSignUp.bind(this)}>
           <Text style={styles.buttonText}>SIGN UP</Text>
-        </TouchableHighlight>
+        </TouchableHighlight>):(<Text></Text>)}
         <Snackbar
           visible={this.state.snackbarVisible}
-          onDismiss={() => this.setState({ visible: false })}
+          onDismiss={() => this.setState({ snackbarVisible: false })}
           action={{
-            label: 'Undo',
+            label: 'Oops',
             onPress: () => this.setState({ snackbarVisible:false }),
           }}
-        >SNAAACK</Snackbar>
+        >Hey, your password is wrong</Snackbar>
       </View>
     );
   }
 
   onLoginPress(){
-    const value = this._form.getValue();
-    this.setState({ error:'', loading: true });
-    let email = value.email;
-    let password = value.password;
+    let { email, password } = this.state;
+
+    if (this.state.loggedIn){
+      return this.setState({ email:'', password:'', loggedIn: false})
+    }
 
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(() => {
-        this.setState({ error:'', loading: false });
+        this.setState({ error:'', loading: false, loggedIn:true });
         this.props.navigation.dispatch(
           NavigationActions.navigate({
             routeName:'Map'
