@@ -63,8 +63,10 @@ export default class MapViewScreen extends React.Component {
         pointData = Object.values(pointData)[0];
         let latitude = pointData["latitude"];
         let longitude = pointData["longitude"];
+        let uid = pointData["uid"];
         let oldData = {
           title: 'TestLocation',
+          uid:uid,
           coordinates:{
             latitude: latitude,
             longitude: longitude,
@@ -133,8 +135,28 @@ export default class MapViewScreen extends React.Component {
     });
   };
 
-  render() {
+  renderMarkers(marker){
+    if (marker["uid"] == this.state.uid){
+      return (
+        <MapView.Marker 
+          pinColor="blue"
+          coordinate={marker.coordinates}
+          title={marker.title}
+        />
+      )
+    } else {
+      return (
+        <MapView.Marker 
+          pinColor="red"
+          coordinate={marker.coordinates}
+          title={marker.title}
+        />
+      )
+    }
+  }
 
+  render() {
+    console.log("this is our state", this.state)
     return (
       <MapView
         onRegionChange={this.onRegionChange}
@@ -146,12 +168,9 @@ export default class MapViewScreen extends React.Component {
             longitudeDelta: 0.0421,
           }}
       >
-       {this.state.markers.map(marker => (
-          <MapView.Marker 
-            coordinate={marker.coordinates}
-            title={marker.title}
-          />
-        ))}
+      {this.state.markers.map(marker => (
+        this.renderMarkers(marker)
+      ))}
         {this.state.location ? (
         <MapView.Marker
           coordinate={this.state.location.coords}
