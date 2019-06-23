@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Platform,
   StyleSheet,
   Text,
   TouchableHighlight,
@@ -9,56 +8,7 @@ import {
 } from 'react-native';
 
 import * as firebase from 'firebase';
-import { db } from '../config';
-import t from 'tcomb-form-native';
 import { NavigationActions } from 'react-navigation';
-
-
-const Form = t.form.Form;
-
-const User = t.struct({
-  email: t.String,
-  password: t.String,
-});
-
-const options = {
-  fields: {
-    email: {
-      error: 'We don\'t have that email in our system'
-    },
-    password: {
-      password: true,
-      secureTextEntry: true,
-      error: 'Nope'
-    },
-  },
-  stylesheet: formStyles,
-};
-
-const formStyles = {
-  ...Form.stylesheet,
-  formGroup: {
-    normal: {
-      marginBottom: 10
-    },
-  },
-  controlLabel: {
-    normal: {
-      color: 'blue',
-      fontSize: 18,
-      marginBottom: 7,
-      fontWeight: '600'
-    },
-    // the style applied when a validation error occours
-    error: {
-      color: 'red',
-      fontSize: 18,
-      marginBottom: 7,
-      fontWeight: '600'
-    }
-  }
-}
-
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
@@ -88,13 +38,13 @@ export default class HomeScreen extends React.Component {
       <View style={styles.container}>
         <Text style={styles.header}>PixTrax</Text>
         <TextInput 
-          style={{height: 52, width: 272, fontSize: 24, textAlign:'center', marginBottom:20, justifyContent:'center', color: '#7A9D96', backgroundColor:'#CAE4DB'}}
+          style={styles.inputBox}
           value={this.state.email}
           onChangeText={(email) => this.setState({email})}
           placeholder="Email"
         />
         <TextInput 
-          style={{height: 52, width: 272, fontSize: 24, textAlign:'center', marginBottom: 20, color: '#7A9D96', backgroundColor:'#CAE4DB'}}
+          style={styles.inputBox}
           value={this.state.password}
           onChangeText={(password) => this.setState({password})}
           placeholder="Password"
@@ -170,4 +120,13 @@ const styles = StyleSheet.create({
   buttonText: {
     color:'#00303F'
   },
+  inputBox: {
+    height: 52,
+    width: 272,
+    fontSize: 24,
+    textAlign:'center',
+    marginBottom:20,
+    color: '#7A9D96',
+    backgroundColor:'#CAE4DB'
+  }
 });

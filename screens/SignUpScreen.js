@@ -65,41 +65,29 @@ export default class SignUpScreen extends React.Component {
 
   render() {
     return (
-      // <ScrollView style={styles.container}>
-      //   <Text style={styles.header}>PixTrax</Text>
-      //   <Form 
-      //     ref={c => this._form = c}
-      //     type={User} 
-      //     options={options}
-      //   />
-      //   <TouchableHighlight 
-      //     onPress={this.onSignUp.bind(this)}>
-      //     <Text>Sign Up!</Text>
-      //   </TouchableHighlight>
-      // </ScrollView>
       <View style={styles.container}>
         <Text style={styles.header}>PixTrax</Text>
         <TextInput 
-          style={{height: 52, width: 272, fontSize: 24, textAlign:'center', marginBottom:20, justifyContent:'center', color: '#7A9D96', backgroundColor:'#CAE4DB'}}
+          style={styles.inputBox}
           value={this.state.displayname}
           onChangeText={(displayname) => this.setState({displayname})}
           placeholder="Display Name"
         />
         <TextInput 
-          style={{height: 52, width: 272, fontSize: 24, textAlign:'center', marginBottom: 20, color: '#7A9D96', backgroundColor:'#CAE4DB'}}
+          style={styles.inputBox}
           value={this.state.email}
           onChangeText={(email) => this.setState({email})}
           placeholder="Email"
         />
         <TextInput 
-          style={{height: 52, width: 272, fontSize: 24, textAlign:'center', marginBottom: 20, color: '#7A9D96', backgroundColor:'#CAE4DB'}}
+          style={styles.inputBox}
           value={this.state.password}
           onChangeText={(password) => this.setState({password})}
           placeholder="Password"
           secureTextEntry={true}
         />
         <TextInput 
-          style={{height: 52, width: 272, fontSize: 24, textAlign:'center', marginBottom: 20, color: '#7A9D96', backgroundColor:'#CAE4DB'}}
+          style={styles.inputBox}
           value={this.state.confirmpassword}
           onChangeText={(confirmpassword) => this.setState({confirmpassword})}
           placeholder="Confirm Password"
@@ -147,4 +135,13 @@ const styles = StyleSheet.create({
   buttonText: {
     color:'#00303F'
   },
+  inputBox: {
+    height: 52,
+    width: 272,
+    fontSize: 24,
+    textAlign:'center',
+    marginBottom:20,
+    color: '#7A9D96',
+    backgroundColor:'#CAE4DB'
+  }
 });
