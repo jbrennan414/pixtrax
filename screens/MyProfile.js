@@ -1,22 +1,16 @@
 import React from 'react';
 import {
   Platform,
-  ScrollView,
   StyleSheet,
   TouchableHighlight,
   View,
   Text,
+  TextInput,
 } from 'react-native';
 
-import t from 'tcomb-form-native';
-import { StackActions, NavigationActions } from 'react-navigation';
+import { NavigationActions } from 'react-navigation';
 import { db } from '../config';
 import * as firebase from 'firebase';
-import ErrorSnackbar from '../components/Snackbar';
-import { Snackbar } from 'react-native-paper';
-
-
-const Form = t.form.Form;
 
 export default class MyProfile extends React.Component {
   constructor(props) {
@@ -26,6 +20,7 @@ export default class MyProfile extends React.Component {
       password:'',
       error:'',
       loading:false,
+      editable: false,
     }
   }
 
@@ -33,62 +28,62 @@ export default class MyProfile extends React.Component {
     header: null,
   };
 
-
-  onSignUp(){
-    const value = this._form.getValue();
-
-    let email = value.email;
-    let password = value.password;
-
-    firebase.auth().createUserWithEmailAndPassword(email, password).then(function() {
-
-      this.props.navigation.dispatch(
-        NavigationActions.navigate({
-          routeName:'Map'
-        })
-      );
-    }).catch(function(error) {
-      console.log("ERRORRRR:", error);
-      <Snackbar
-          visible={true}
-          onDismiss={() => this.setState({ visible: false })}
-          action={{
-            label: 'Undo',
-            onPress: () => {
-              // Do something
-            },
-          }}
-        >
-            Heyyyyyyyyyy
-        </Snackbar>    })
+  onEdit(){
+    if (this.state.editable == true){
+      this.setState({ editable: false });
+    } else {
+      this.setState({ editable: true });
+    }
   }
 
   render() {
 
     let user = firebase.auth().currentUser;
 
-    console.log("1111111 this is your currentUser:", user);
-
     return (
-        <ScrollView style={styles.container}>
-          {user ? (
-            <View>
-              <Text style={styles.header}>PixTrax</Text>
-              <Text>Display Name: {user.displayName}</Text>
-              <Text>Email: {user.email}</Text>
-              <Text>Change My Password</Text>
-              <TouchableHighlight 
-                onPress={this.onSignUp.bind(this)}>
-                <Text>Edit</Text>
-              </TouchableHighlight>
-            </View>
-          ):(
-            <View>
-              <Text>Please Sign In</Text>
-            </View>
-          )}
-        </ScrollView>
-      );
+      <View style={styles.container}>
+        <Text style={styles.header}>PixTrax</Text>
+        <TextInput 
+          style={styles.inputBox}
+          value={user.displayName}
+          onChangeText={(email) => this.setState({email})}
+          placeholder={user.displayName}
+          editable={this.state.editable}
+        />
+        <TextInput 
+          style={styles.inputBox}
+          value={user.email}
+          onChangeText={(password) => this.setState({password})}
+          placeholder={user.email}
+          editable={this.state.editable}
+        />
+        {this.state.editable ? (
+          <View>
+            <TouchableHighlight
+              style={styles.button}
+              onPress={this.onEdit.bind(this)}>
+                <Text style={styles.buttonText}>SUBMIT</Text>
+            </TouchableHighlight>
+            <TouchableHighlight
+              style={styles.button}
+              onPress={this.onEdit.bind(this)}>
+                <Text style={styles.buttonText}>CANCEL</Text>
+            </TouchableHighlight>
+          </View>
+        ) : (
+          <TouchableHighlight
+          style={styles.button}
+          onPress={this.onEdit.bind(this)}>
+            <Text style={styles.buttonText}>EDIT</Text>
+          </TouchableHighlight>
+        )}
+        <TouchableHighlight
+          style={styles.button}>
+          {/* // onPress={this.onLoginPress.bind(this)} */}
+          <Text style={styles.buttonText}>CHANGE PASSWORD</Text>
+        </TouchableHighlight>
+      </View>
+    );
   }
 
   handleSignUp = () => {
@@ -113,73 +108,33 @@ const addItem = item => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    padding: 40,
-    marginTop: 40,
-
+    backgroundColor: '#00303F',
+    paddingTop: 120,
+    alignItems:'center',
   },
   header: {
-    fontSize:24,
+    fontWeight:"100",
+    fontSize:52,
+    letterSpacing:3,
     textAlign: 'center',
+    color:'#CAE4DB',
+    paddingBottom:20,
   },
   button: {
-    fontSize:24,
+    backgroundColor:'#DCAE1E',
+    alignItems:'center',
+    height:29,
+    width:160,
+    marginBottom: 10,
+    padding: 5,
+  },
+  inputBox: {
+    height: 52,
+    width: 272,
+    fontSize: 24,
     textAlign:'center',
-  },
-  homeScreenFilename: {
-    marginVertical: 7,
-  },
-  codeHighlightText: {
-    color: 'rgba(96,100,109, 0.8)',
-  },
-  codeHighlightContainer: {
-    backgroundColor: 'rgba(0,0,0,0.05)',
-    borderRadius: 3,
-    paddingHorizontal: 4,
-  },
-  getStartedText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    lineHeight: 24,
-    textAlign: 'center',
-  },
-  tabBarInfoContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    ...Platform.select({
-      ios: {
-        shadowColor: 'black',
-        shadowOffset: { height: -3 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-      },
-      android: {
-        elevation: 20,
-      },
-    }),
-    alignItems: 'center',
-    backgroundColor: '#fbfbfb',
-    paddingVertical: 20,
-  },
-  tabBarInfoText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    textAlign: 'center',
-  },
-  navigationFilename: {
-    marginTop: 5,
-  },
-  helpContainer: {
-    marginTop: 15,
-    alignItems: 'center',
-  },
-  helpLink: {
-    paddingVertical: 15,
-  },
-  helpLinkText: {
-    fontSize: 14,
-    color: '#2e78b7',
-  },
+    marginBottom:20,
+    color: '#7A9D96',
+    backgroundColor:'#CAE4DB'
+  }
 });
