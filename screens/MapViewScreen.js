@@ -53,6 +53,7 @@ export default class MapViewScreen extends React.Component {
         let oldData = {
           title: 'TestLocation',
           uid:uid,
+          key: childSnapshot.key,
           coordinates:{
             latitude: latitude,
             longitude: longitude,
@@ -123,10 +124,12 @@ export default class MapViewScreen extends React.Component {
   };
 
   renderMarkers(marker){
+    key= marker.key;
     if (marker["uid"] == this.state.uid){
       return (
         <MapView.Marker 
           pinColor="blue"
+          key={key}
           coordinate={marker.coordinates}
           title={marker.title}
         />
@@ -135,6 +138,7 @@ export default class MapViewScreen extends React.Component {
       return (
         <MapView.Marker 
           pinColor="red"
+          key={key}
           coordinate={marker.coordinates}
           title={marker.title}
         />
