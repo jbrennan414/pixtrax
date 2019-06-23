@@ -8,6 +8,7 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 
 import { NavigationActions } from 'react-navigation';
@@ -23,29 +24,15 @@ export default class MapViewScreen extends React.Component {
       currentLatitude:'',
       uid:'',
       currentLocation:'',
-      markers: [{
-        title: 'Cheeseman',
-        key:1,
-        coordinates: {
-          latitude: 39.7329,
-          longitude: -104.9668685551582
-        },
-      },
-      {
-        title: 'Zoo',
-        key:2,
-        coordinates: {
-          latitude: 39.7461,
-          longitude: -104.9503
-        },  
-      }]
+      loading: false,
+      markers: [],
     }
     
     this.onRegionChange = this.onRegionChange.bind(this);
   }
 
   static navigationOptions = {
-    title: 'Map',
+    header: null,
   };
 
   componentDidMount(){
@@ -156,7 +143,6 @@ export default class MapViewScreen extends React.Component {
   }
 
   render() {
-    console.log("this is our state", this.state)
     return (
       <MapView
         onRegionChange={this.onRegionChange}
