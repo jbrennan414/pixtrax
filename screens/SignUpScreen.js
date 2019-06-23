@@ -10,6 +10,7 @@ import {
 import { db } from '../config';
 import * as firebase from 'firebase';
 import { NavigationActions } from 'react-navigation';
+import { Snackbar } from 'react-native-paper';
 
 
 export default class SignUpScreen extends React.Component {
@@ -24,6 +25,7 @@ export default class SignUpScreen extends React.Component {
       email: "",
       password: "",
       confirmpassword:"",
+      snackbarVisible:false
     }
   }
 
@@ -35,9 +37,13 @@ export default class SignUpScreen extends React.Component {
   onSignUp(){
     const value = this.state;
 
-    let email = value.email;
+    let email = value.email.toLowerCase();
     let password = value.password;
-    let displayName = value.displayname;
+    let displayName = "@"+value.displayname;
+
+    if (this.state.confirmpassword !== this.state.password){
+      return this.setState({ snackbarVisible:true });
+    }
 
     firebase.auth().createUserWithEmailAndPassword(email, password).then(function() {
       let user = firebase.auth().currentUser;
@@ -49,7 +55,9 @@ export default class SignUpScreen extends React.Component {
         return console.log("There was an issue updating your profile.")
       })
 
-      addItem(value);
+      //I'm not sure if we need this at all. I think I initially did this to
+      //do a shitty version of authentication?
+      // addItem(value);
 
     }).catch(function(error) {
       return console.log("ERRORRRR:", error)
@@ -98,15 +106,17 @@ export default class SignUpScreen extends React.Component {
           onPress={this.onSignUp.bind(this)}>
           <Text style={styles.buttonText}>SIGN UP</Text>
       </TouchableHighlight>
+      <Snackbar
+          visible={this.state.snackbarVisible}
+          onDismiss={() => this.setState({ visible: false })}
+          action={{
+            label: 'Ooops',
+            onPress: () => this.setState({ snackbarVisible:false }),
+          }}
+        >Passwords don't match</Snackbar>
     </View>
     );
   }
-};
-
-const addItem = item => {  
-  db.ref('/users').push({
-    item
-  });
 };
 
 const styles = StyleSheet.create({

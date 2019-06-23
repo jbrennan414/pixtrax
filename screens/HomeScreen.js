@@ -9,6 +9,7 @@ import {
 
 import * as firebase from 'firebase';
 import { NavigationActions } from 'react-navigation';
+import { Snackbar } from 'react-native-paper';
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
@@ -19,6 +20,7 @@ export default class HomeScreen extends React.Component {
       error:'',
       loading: false,
       authenticated: false,
+      snackbarVisible: false,
       fontLoaded:false,
       email: "",
       password: "",
@@ -59,6 +61,14 @@ export default class HomeScreen extends React.Component {
           onPress={this.handleSignUp.bind(this)}>
           <Text style={styles.buttonText}>SIGN UP</Text>
         </TouchableHighlight>
+        <Snackbar
+          visible={this.state.snackbarVisible}
+          onDismiss={() => this.setState({ visible: false })}
+          action={{
+            label: 'Undo',
+            onPress: () => this.setState({ snackbarVisible:false }),
+          }}
+        >SNAAACK</Snackbar>
       </View>
     );
   }
@@ -79,8 +89,7 @@ export default class HomeScreen extends React.Component {
         )
       })
       .catch(() => {
-        console.log("NAH DUDE THATS WRONG")
-        this.setState({error: 'Authentication failed', loading: false});
+        this.setState({error: 'Authentication failed', loading: false, snackbarVisible:true });
       })
 
   }
