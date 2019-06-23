@@ -9,6 +9,10 @@ export default class CameraExample extends React.Component {
     type: Camera.Constants.Type.back,
   };
 
+  static navigationOptions = {
+    header: null,
+  };
+
   async componentDidMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === 'granted' });

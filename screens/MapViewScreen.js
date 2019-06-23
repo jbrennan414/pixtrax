@@ -24,7 +24,7 @@ export default class MapViewScreen extends React.Component {
       currentLatitude:'',
       uid:'',
       currentLocation:'',
-      loading: false,
+      loading: true,
       markers: [],
     }
     
@@ -37,7 +37,6 @@ export default class MapViewScreen extends React.Component {
 
   componentDidMount(){
     this.getLocationAsync();
-
 
     let markers = this.state.markers;
     let query = firebase.database().ref("locations").orderByKey();
@@ -81,6 +80,7 @@ export default class MapViewScreen extends React.Component {
   }
 
   addLocation(){
+    this.setState({ loading: false })
     //I need to get access to user.uid here
     let latitude = this.state.latitude;
     let longitude = this.state.longitude;
@@ -166,11 +166,13 @@ export default class MapViewScreen extends React.Component {
         />
         ):(<Text></Text>)}
         <TouchableOpacity
-          style={styles.container}
+          style={styles.camera}
           onPress={this.addLocation.bind(this)}>
             <Ionicons name="ios-camera" size={40} color="#00303F" />
         </TouchableOpacity>
-        
+        {this.state.loading ? (
+          <ActivityIndicator style={styles.loadingSpinner} size="large" color="gray" />
+        ):(<Text></Text>)}
       </MapView>
     );
   }
@@ -182,4 +184,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems:'flex-end'
   },
+  loadingSpinner:{
+    flex: 5,
+    justifyContent:'center',
+    alignItems:'center'
+  },
+  camera:{
+    justifyContent:'center',
+    alignItems:'center'
+  }
 })
