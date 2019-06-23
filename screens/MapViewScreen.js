@@ -13,7 +13,6 @@ import {
 import { NavigationActions } from 'react-navigation';
 import { Ionicons } from '@expo/vector-icons';
 
-
 export default class MapViewScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -22,6 +21,7 @@ export default class MapViewScreen extends React.Component {
       latitude:'',
       locationResult:null,
       currentLatitude:'',
+      uid:'',
       currentLocation:'',
       markers: [{
         title: 'Cheeseman',
@@ -74,6 +74,13 @@ export default class MapViewScreen extends React.Component {
       });
     })
 
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user){
+        this.setState({ uid: user.uid })
+      } else {
+        console.log("We don't have a UID")
+      }
+    })
 
   }
 
@@ -92,6 +99,7 @@ export default class MapViewScreen extends React.Component {
     let locationObject= { 
       latitude: latitude,
       longitude: longitude,
+      uid: this.state.uid,
     }
 
     db.ref('/locations').push({
@@ -126,8 +134,6 @@ export default class MapViewScreen extends React.Component {
   };
 
   render() {
-
-    console.log("11111 this.state.location", this.state.location)
 
     return (
       <MapView
