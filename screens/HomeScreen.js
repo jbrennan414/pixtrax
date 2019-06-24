@@ -80,7 +80,13 @@ export default class HomeScreen extends React.Component {
     let { email, password } = this.state;
 
     if (this.state.loggedIn){
-      return this.setState({ email:'', password:'', loggedIn: false})
+      // return this.setState({ email:'', password:'', loggedIn: false})
+      return firebase.auth().signOut().then(function() {
+        console.log('Signed Out');
+        this.setState({ email:'', password:'', loggedIn:false });
+      }, function(error) {
+        console.error('Sign Out Error', error);
+      });
     }
 
     firebase.auth().signInWithEmailAndPassword(email, password)
