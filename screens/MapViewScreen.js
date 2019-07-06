@@ -9,6 +9,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ActivityIndicator,
+  View,
 } from 'react-native';
 
 import { NavigationActions } from 'react-navigation';
@@ -23,7 +24,7 @@ export default class MapViewScreen extends React.Component {
       locationResult:null,
       currentLatitude:'',
       uid:'',
-      currentLocation:'',
+      currentLongitude:'',
       loading: true,
       markers: [],
     }
@@ -35,9 +36,11 @@ export default class MapViewScreen extends React.Component {
     header: null,
   };
 
-  componentDidMount(){
-    this.getLocationAsync();
+  async componentWillMount(){
+    await this.getLocationAsync();
+  }
 
+  componentDidMount(){
     let markers = this.state.markers;
     let query = firebase.database().ref("locations").orderByKey();
     query.once("value")
@@ -118,7 +121,7 @@ export default class MapViewScreen extends React.Component {
 
     this.setState({ 
       currentLatitude: latitude,
-      currentLocation: longitude,
+      currentLongitude: longitude,
       locationResult: JSON.stringify(location), location,
     });
   };
@@ -147,13 +150,18 @@ export default class MapViewScreen extends React.Component {
   }
 
   render() {
+    //This should probably be a loading indicator or something, but whatever
+    if (this.state && !this.state.location) {
+      return (<View><Text>Loading</Text></View>);
+    }
+
     return (
       <MapView
         onRegionChange={this.onRegionChange}
         style={styles.container}
         initialRegion={{
-            latitude: 39.7392,
-            longitude: -104.9903,
+            latitude: this.state.location.coords.latitude,
+            longitude: this.state.location.coords.longitude,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}
