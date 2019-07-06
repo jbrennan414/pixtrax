@@ -174,9 +174,6 @@ export default class MapViewScreen extends React.Component {
           onPress={this.addLocation.bind(this)}>
             <Ionicons name="ios-camera" size={40} color="#00303F" />
         </TouchableOpacity>
-        {this.state.loading ? (
-          <ActivityIndicator style={styles.loadingSpinner} size="large" color="gray" />
-        ):(<Text></Text>)}
       </MapView>
     );
   }
