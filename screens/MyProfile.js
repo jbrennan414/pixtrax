@@ -85,24 +85,6 @@ export default class MyProfile extends React.Component {
       </View>
     );
   }
-
-  handleSignUp = () => {
-
-    const value = this._form.getValue();
-    addItem(value);
-
-    this.props.navigation.dispatch(
-      NavigationActions.navigate({
-        routeName:'Map'
-      })
-    )
-  }
-};
-
-const addItem = item => {  
-  db.ref('/users').push({
-    item
-  });
 };
 
 const styles = StyleSheet.create({
