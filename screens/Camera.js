@@ -2,11 +2,13 @@ import React from 'react';
 import { Text, CameraRoll,  Alert,  View, TouchableOpacity } from 'react-native';
 import { Camera, Permissions } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
+import { NavigationActions } from 'react-navigation';
 
 export default class CameraExample extends React.Component {
   state = {
     hasCameraPermission: null,
     type: Camera.Constants.Type.back,
+    cameraRollUri: null,
   };
 
   static navigationOptions = {
@@ -24,11 +26,28 @@ export default class CameraExample extends React.Component {
       const options = { quality: 1, base64: true, fixOrientation: true, 
       exif: true};
       await this.camera.takePictureAsync(options).then(photo => {
-         photo.exif.Orientation = 1;            
-          console.log(photo);            
-          });     
+        photo.exif.Orientation = 1;
+        console.log(photo);
+        //after 
+        this.props.navigation.dispatch(
+          NavigationActions.navigate({
+            routeName:'Map',
+          })
+        )         
+      }); 
     }
   }
+
+  _saveToCameraRollAsync = async () => {
+    let result = await takeSnapshotAsync(this._container, {
+      format: 'png',
+      result: 'file',
+    });
+
+    let saveResult = await CameraRoll.saveToCameraRoll(result, 'photo');
+    this.setState({ cameraRollUri: saveResult });
+
+  };
 
   render() {
     const { hasCameraPermission } = this.state;
