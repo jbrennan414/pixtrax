@@ -4,6 +4,7 @@ import { Camera, Permissions } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationActions } from 'react-navigation';
 
+
 export default class CameraExample extends React.Component {
   state = {
     hasCameraPermission: null,
@@ -23,20 +24,22 @@ export default class CameraExample extends React.Component {
   _onSaySave = async () => {
     if (this.camera) {
       console.log('Taking photo');
-      const options = { quality: 1, base64: true, fixOrientation: true, 
+      const options = { quality: 1, base64: true, fixOrientation: true,
       exif: true};
       await this.camera.takePictureAsync(options).then(photo => {
         photo.exif.Orientation = 1;
         console.log(photo);
-        //after 
+        //after
         this.props.navigation.dispatch(
           NavigationActions.navigate({
             routeName:'Map',
           })
-        )         
-      }); 
+        )
+      });
     }
   }
+
+  //test
 
   _saveToCameraRollAsync = async () => {
     let result = await takeSnapshotAsync(this._container, {
