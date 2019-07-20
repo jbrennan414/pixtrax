@@ -28,7 +28,7 @@ export default class CameraExample extends React.Component {
       exif: true};
       await this.camera.takePictureAsync(options).then(photo => {
         photo.exif.Orientation = 1;
-        console.log(photo);
+        CameraRoll.saveToCameraRoll(photo.uri).then(Alert.alert("Saved to Camera Roll"))
         //after
         this.props.navigation.dispatch(
           NavigationActions.navigate({
@@ -40,18 +40,6 @@ export default class CameraExample extends React.Component {
   }
 
   //test
-
-  _saveToCameraRollAsync = async () => {
-    let result = await takeSnapshotAsync(this._container, {
-      format: 'png',
-      result: 'file',
-    });
-
-    let saveResult = await CameraRoll.saveToCameraRoll(result, 'photo');
-    this.setState({ cameraRollUri: saveResult });
-
-  };
-
   render() {
     const { hasCameraPermission } = this.state;
     if (hasCameraPermission === null) {
