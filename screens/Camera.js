@@ -32,6 +32,9 @@ export default class CameraExample extends React.Component {
         this.props.navigation.dispatch(
           NavigationActions.navigate({
             routeName:'Map',
+            params: {
+              newPhoto: true
+            }
           })
         )
       });
