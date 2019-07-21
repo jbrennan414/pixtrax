@@ -9,7 +9,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   ActivityIndicator,
+  Image,
   View,
+  CameraRoll,
 } from 'react-native';
 
 import { NavigationActions } from 'react-navigation';
@@ -20,6 +22,7 @@ export default class MapViewScreen extends React.Component {
     super(props);
     this.state = {
       longitude:'',
+      photo:null,
       latitude:'',
       locationResult:null,
       currentLatitude:'',
@@ -37,6 +40,7 @@ export default class MapViewScreen extends React.Component {
   };
 
   async componentWillMount(){
+    this._getLastPhoto();
     await this.getLocationAsync();
   }
 
@@ -126,6 +130,12 @@ export default class MapViewScreen extends React.Component {
     });
   };
 
+  async _getLastPhoto(){
+    console.log("OK")
+    let photo = await CameraRoll.getPhotos({first:1});
+    this.setState({ photo });
+  }
+
   renderMarkers(marker){
     key= marker.key;
     if (marker["uid"] == this.state.uid){
@@ -149,9 +159,24 @@ export default class MapViewScreen extends React.Component {
     }
   }
 
+  renderPhoto(){
+    let photo = this.state.photo;
+    let images = [];
+      images.push(
+        <Image
+          source={require('../assets/images/location.png')}
+          resizeMode="contain"
+          style={{ height: 100, width: 100, resizeMode: 'contain' }}
+        />
+      );
+    return images;
+  }
+
+
   render() {
+    let { photo } = this.state;
     //This should probably be a loading indicator or something, but whatever
-    if (this.state && !this.state.location) {
+    if (this.state && !this.state.location|| !photo) {
       return (<View><Text>Loading</Text></View>);
     }
 
@@ -182,6 +207,7 @@ export default class MapViewScreen extends React.Component {
           onPress={this.addLocation.bind(this)}>
             <Ionicons name="ios-camera" size={40} color="#00303F" />
         </TouchableOpacity>
+        {this.renderPhoto()}
       </MapView>
     );
   }
@@ -200,6 +226,11 @@ const styles = StyleSheet.create({
   },
   camera:{
     justifyContent:'center',
-    alignItems:'center'
+    alignItems:'center',
+  },
+  rectangle:{
+    height: 200,
+    width: 100,
+    backgroundColor:'red',
   }
 })
