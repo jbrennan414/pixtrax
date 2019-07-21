@@ -159,16 +159,18 @@ export default class MapViewScreen extends React.Component {
     }
   }
 
-  renderPhoto(){
-    let photo = this.state.photo;
+  renderPhoto(photos){
     let images = [];
+    for (let { node: photo } of photos.edges) {
       images.push(
         <Image
-          source={require('../assets/images/location.png')}
+          source={photo.image}
+          key={photos.edges[0].node.image.uri}
           resizeMode="contain"
-          style={{ height: 100, width: 100, resizeMode: 'contain' }}
+          style={{ height: 200, marginRight:'50%', marginTop:'100%', width: 200, resizeMode: 'contain' }}
         />
       );
+      };
     return images;
   }
 
@@ -207,7 +209,7 @@ export default class MapViewScreen extends React.Component {
           onPress={this.addLocation.bind(this)}>
             <Ionicons name="ios-camera" size={40} color="#00303F" />
         </TouchableOpacity>
-        {this.renderPhoto()}
+        {this.renderPhoto(photo)}
       </MapView>
     );
   }

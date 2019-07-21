@@ -24,10 +24,9 @@ export default class CameraExample extends React.Component {
   _onSaySave = async () => {
     if (this.camera) {
       console.log('Taking photo');
-      const options = { quality: 1, base64: true, fixOrientation: true,
-      exif: true};
+      const options = { quality: 1, base64: true, fixOrientation: true,  exif: true};
       await this.camera.takePictureAsync(options).then(photo => {
-        photo.exif.Orientation = 1;
+        // photo.exif.Orientation = 1;
         CameraRoll.saveToCameraRoll(photo.uri).then(Alert.alert("Saved to Camera Roll"))
         //after
         this.props.navigation.dispatch(
